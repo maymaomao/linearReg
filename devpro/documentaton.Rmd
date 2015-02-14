@@ -1,0 +1,54 @@
+---
+title: "Documentation"
+output: html_document
+---
+
+In this part, I will implement linear regression with one variable to predict profits for a food truck.Suppose you are the CEO of a restaurant franchise and are considering different cities for opening a new outlet. The chain already has trucks in various cities and you have data for profits and populations from the cities.
+
+
+You would like to use this data to help you select which city to expand to next.
+
+The file data1.txt contains the dataset for our linear regression. The first column is the population of a city and the second column is the profit of a food truck in that city. A negative value for profit indicates a loss.
+
+
+Library Packages:
+```{r library packages,results=FALSE}
+library(ggplot2)
+```
+
+Let's see the original data first,there are two columns representing Population of City in 10,000s and Profit in $10,000s.
+
+```{r readdata}
+data<-read.table("data1.txt",sep=",",header = F)
+names(data)<-c("population","profit")
+head(data)
+summary(data)
+```
+
+Plotting: 
+
+It is often useful to understand the data by visualizing it. For this dataset, we can use a scatter plot to visualize the data.
+```{r, plotting}
+ggplot(data,aes(x=population,y=profit))+geom_point(colour="red",size=3)+geom_smooth(type="lm")
+```
+
+Linear Regression,get the intercept and slope of the "best" straight line.
+
+```{r linearreg}
+fit<-lm(profit~population,data=data)
+summary(fit)
+intercept<-fit$coefficients[1]
+slope<-fit$coefficients[2]
+```
+
+Prediction
+
+```{r prediction}
+predict_population=11.03
+predict_profit=slope*predict_population+intercept
+predict_profit
+```
+
+Conclusion
+
+In this project, I implement linear regression and get to see it work on data about the profit changed by the population of the city.
